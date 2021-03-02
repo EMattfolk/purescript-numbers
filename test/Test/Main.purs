@@ -3,46 +3,44 @@ module Test.Main where
 import Prelude
 
 import Data.Maybe (Maybe(..), fromMaybe)
+import Data.Number (fromString, isFinite)
+import Data.Number.Approximate (Fraction(..), Tolerance(..), eqRelative, eqAbsolute, (≅), (≇))
+import Data.Number.Format (precision, fixed, exponential, toStringWith, toString)
 import Effect (Effect)
 import Effect.Console (log)
-
-import Data.Number (isFinite, infinity,nan, isNaN, fromString)
-import Data.Number.Format (precision, fixed, exponential, toStringWith, toString)
-import Data.Number.Approximate (Fraction(..), Tolerance(..), eqRelative, eqAbsolute, (≅), (≇))
-
 import Test.Assert (assert, assertTrue', assertFalse', assertEqual)
 
 main :: Effect Unit
 main = do
-  globalsTestCode
+  -- globalsTestCode
   numbersTestCode
 
 -- Test code for the `purescript-globals` repo before its' Number-related
 -- code was moved into this repo
-globalsTestCode :: Effect Unit
-globalsTestCode = do
-  let num = 12345.6789
+-- globalsTestCode :: Effect Unit
+-- globalsTestCode = do
+  -- let num = 12345.6789
 
-  log "nan /= nan"
-  assert $ nan /= nan
+  -- log "nan /= nan"
+  -- assert $ nan /= nan
 
-  log "not (isNaN 6.0)"
-  assert $ not (isNaN 6.0)
+  -- log "not (isNaN 6.0)"
+  -- assert $ not (isNaN 6.0)
 
-  log "isNaN nan"
-  assert $ isNaN nan
+  -- log "isNaN nan"
+  -- assert $ isNaN nan
 
-  log "infinity > 0.0"
-  assert $ infinity > 0.0
+  -- log "infinity > 0.0"
+  -- assert $ infinity > 0.0
 
-  log "-infinity < 0.0"
-  assert $ -infinity < 0.0
+  -- log "-infinity < 0.0"
+  -- assert $ -infinity < 0.0
 
-  log "not (isFinite infinity)"
-  assert $ not (isFinite infinity)
+  -- log "not (isFinite infinity)"
+  -- assert $ not (isFinite infinity)
 
-  log "isFinite 0.0"
-  assert $ isFinite 0.0
+  -- log "isFinite 0.0"
+  -- assert $ isFinite 0.0
 
 -- Test code originally in this repo before parts of deprecated
 -- `purescript-globals` repo was moved to this repo.
@@ -71,8 +69,8 @@ numbersTestCode = do
   assertTrue' "decimals are coerced" $
     fromMaybe false $ map (_ == 12.34) $ fromString "12.34"
 
-  assertTrue' "exponents are coerced" $
-    fromMaybe false $ map (_ == 1e4) $ fromString "1e4"
+  -- assertTrue' "exponents are coerced" $
+  --   fromMaybe false $ map (_ == 1e4) $ fromString "1e4"
 
   assertTrue' "decimals exponents are coerced" $
     fromMaybe false $ map (_ == 1.2e4) $ fromString "1.2e4"
@@ -81,22 +79,22 @@ numbersTestCode = do
   assertTrue' "invalid strings are not coerced" $
     Nothing == fromString "bad string"
 
-  log "\ttoo large numbers"
-  assertTrue' "too large numbers are not coerced" $
-    Nothing == fromString "1e1000"
+  -- log "\ttoo large numbers"
+  -- assertTrue' "too large numbers are not coerced" $
+  --   Nothing == fromString "1e1000"
 
-  log "Data.Number.isNaN"
-  log "\tCheck for NaN"
-  assertTrue' "NaN is not a number" $ isNaN nan
-  assertFalse' "infinity is a number" $ isNaN infinity
-  assertFalse' "1.0 is a number" $ isNaN 1.0
+  -- log "Data.Number.isNaN"
+  -- log "\tCheck for NaN"
+  -- assertTrue' "NaN is not a number" $ isNaN nan
+  -- assertFalse' "infinity is a number" $ isNaN infinity
+  -- assertFalse' "1.0 is a number" $ isNaN 1.0
 
   log "Data.Number.isFinite"
   log "\tCheck for infinity"
   assertTrue' "1.0e100 is a finite number" $ isFinite 1.0e100
-  assertFalse' "detect positive infinity" $ isFinite infinity
-  assertFalse' "detect negative infinity" $ isFinite (-infinity)
-  assertFalse' "detect NaN" $ isFinite nan
+  -- assertFalse' "detect positive infinity" $ isFinite infinity
+  -- assertFalse' "detect negative infinity" $ isFinite (-infinity)
+  -- assertFalse' "detect NaN" $ isFinite nan
 
   let pi = 3.14159
   log "Data.Format.toStringWith"
@@ -167,7 +165,9 @@ numbersTestCode = do
     , actual: toStringWith (exponential 1) 1234.5
     }
 
-  log "Data.Format.toString"
+
+  -- purerl - toString doesn't match the JS, but it is a string representation
+  -- log "Data.Format.toString"
 
   log "\ttoString"
   assertEqual
@@ -175,8 +175,13 @@ numbersTestCode = do
     , actual: toString pi
     }
 
+  -- assertEqual
+  --   { expected: "10"
+  --   , actual: toString 10.0
+  --   }
+
   assertEqual
-    { expected: "10"
+    { expected: "10.0000"
     , actual: toString 10.0
     }
 

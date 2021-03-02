@@ -1,23 +1,23 @@
 -- | Functions for working with PureScripts builtin `Number` type.
 module Data.Number
   ( fromString
-  , nan
-  , isNaN
-  , infinity
+  -- , nan
+  -- , isNaN
+  -- , infinity
   , isFinite
   ) where
 
 import Data.Function.Uncurried (Fn4, runFn4)
 import Data.Maybe (Maybe(..))
 
--- | Not a number (NaN)
-foreign import nan :: Number
+-- -- | Not a number (NaN)
+-- foreign import nan :: Number
 
--- | Test whether a number is NaN
-foreign import isNaN :: Number -> Boolean
+-- -- | Test whether a number is NaN
+-- foreign import isNaN :: Number -> Boolean
 
--- | Positive infinity
-foreign import infinity :: Number
+-- -- | Positive infinity
+-- foreign import infinity :: Number
 
 -- | Test whether a number is finite
 foreign import isFinite :: Number -> Boolean
